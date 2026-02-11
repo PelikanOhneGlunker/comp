@@ -4,9 +4,11 @@
 #include <stdbool.h>
 #include <string.h>
 
+#define NR_OF_ELEMNTS 16
+
 typedef struct HashType {
-	int len; 
-	const char *name;
+        int len; 
+        const char *name;
 } HashType;
 
 HashType types[] = {
@@ -22,7 +24,6 @@ typedef struct MemNode {
 
 static int len_types = 0;
 static MemNode *mem_head = NULL;
-#define NR_OF_ELEMNTS 12
 
 void printHashTypes();
 int getLen(char *s1, char *s2);
@@ -49,7 +50,7 @@ int main(int argc, char **argv) {
     }
     if (argc == 3) {
         if (argv[1][0] == 'i' && argv[1][1] == 'n' && argv[1][2] == '=') {
-	    goto cmp_to_stored_hash;
+            goto cmp_to_stored_hash;
         }
     }
     if (argc == 3) {
@@ -63,7 +64,8 @@ length:
     return 0;
 
 show_help:
-    printf("@VERSION 2.3\n");
+    printf("@VERSION 2.4\n");
+    printf("NR_OF_ELEMNTS: %d\n", NR_OF_ELEMNTS);
     printf("params <string> <string>\n");
     printf("params <in=index> <string>\n");
     printHashTypes();
@@ -92,15 +94,15 @@ calcu:
     drawBreaks(1);
     for (int i = 0; i < len_types; ++i) {
         if (types[i].len == length) {
-	    pri(0xAAAAFF, "Checksum Type: ");
-	    pri(0xAAAAFF, (char*) types[i].name);
-	    drawBreaks(1);
-	}
+            pri(0xAAAAFF, "Checksum Type: ");
+            pri(0xAAAAFF, (char*) types[i].name);
+            drawBreaks(1);
+        }
     }
     if (compare(s1, s2, length)) {
         pri(0xFF33FF, "Strings are same\n");
     } else {
-    	pri(0xFF0000, "Strings are not same\n");
+        pri(0xFF0000, "Strings are not same\n");
     }
     if (mem_head != NULL) {
         memlist_free_all();
@@ -110,20 +112,20 @@ calcu:
 
 int char_to_int(char ca, char cb) {
     if (cb == '\0') {
-    	const char numb[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-    	for (int i = 0; i < 10; ++i) {
+        const char numb[10] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        for (int i = 0; i < 10; ++i) {
             if (numb[i] == ca) {
-            	return i;
+                return i;
             }
         }
     } else {
         int a = char_to_int(ca, '\0');
-	int b = char_to_int(cb, '\0');
-	int index = (a * 10) + b;
-	if (index >= NR_OF_ELEMNTS) {
-	    return -1;
-	}
-	return index;
+        int b = char_to_int(cb, '\0');
+        int index = (a * 10) + b;
+        if (index >= NR_OF_ELEMNTS) {
+            return -1;
+        }
+        return index;
     }
     return -1;
 }
@@ -146,11 +148,11 @@ void printHashTypes() {
 int getLength(char *str) {
     int counter = 0;
     while (*str != '\0' && counter < 88888) {
-    	if (counter == 88888) {
-	    pri(0xFF0000000044, "ERROR: 88888");
-	}
-	++str;
-	++counter;
+        if (counter == 88888) {
+            pri(0xFF0000000044, "ERROR: 88888");
+        }
+        ++str;
+        ++counter;
     }
     return counter;
 }
@@ -162,7 +164,7 @@ int getLen(char *s1, char *s2) {
     int len_s2 = 0;
     while (*s1 != '\0') {
         ++s1;
-	++len_s1;
+        ++len_s1;
     }
     while (*s2 != '\0') {
         ++s2;
@@ -170,17 +172,19 @@ int getLen(char *s1, char *s2) {
     }
     if (len_s1 != len_s2) {
         printf("Size not same: s1: %d, s2: %d\n", len_s1, len_s2);
-	return -1;
+        return -1;
     } else {
-    	return len_s1;
+        return len_s1;
     }
 }
 
 void pri(uint64_t col, char *ptext) {
     uint8_t bg_r = (col >> 40) & 0xFF;// vordergrundfarben
+
     uint8_t bg_g = (col >> 32) & 0xFF;
     uint8_t bg_b = (col >> 24) & 0xFF;
     uint8_t fg_r = (col >> 16) & 0xFF;// hintergrundfarben
+
     uint8_t fg_g = (col >> 8)  & 0xFF;
     uint8_t fg_b = col         & 0xFF;
     printf("\033[38;2;%d;%d;%dm", fg_r, fg_g, fg_b);
@@ -255,6 +259,10 @@ char* getHashByIndex(int index) {
     strncpy(list[9], "4bbb9e26d0cf0d4b40009dd400425d098eddf3f23543846f838cfa72475a58ca", 65);
     strncpy(list[10], "abb2fabcac26f3f9dad8cb92068558729a7c82a1177e6df29f8b6ae2771ef2fd", 65);
     strncpy(list[11], "7d1d4e4234ff184e427a831151971668affd2f24d856e95c3e1e73d0c895f55c", 65);
+    strncpy(list[12], "8bd4d08866a24528c7c34a87ece6e0e1adf0d1c7b4a1269cce37ae9e3df69c99", 65);
+    strncpy(list[13], "c9f09d24b7e834e6834f2ffa565b33d6f1f540d04bd25c79ad9953bc79a8ac02", 65);
+    strncpy(list[14], "866e559fdbd91c4ffcec45732ec32b414fb71fc4b6c1353e6e8b8bf198cd2f74", 65);
+    strncpy(list[15], "871bede9ce69b4b3f442f29c8c714884561b5b0269a38b6a668109b1a45503c2", 65);
     return list[index];
 }
 
